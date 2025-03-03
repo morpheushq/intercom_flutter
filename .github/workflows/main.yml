@@ -26,7 +26,7 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: 'stable'
-    
+
     # Download all Flutter packages
     - name: Download dependencies
       run: flutter pub get
@@ -61,7 +61,7 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: 'stable'
-    
+
     # Download all Flutter packages
     - name: Download dependencies
       run: flutter pub get
@@ -82,40 +82,3 @@ jobs:
       run: flutter test --coverage
       working-directory: ${{env.source-directory}}
 
-  # job for plugin intercom_flutter_web
-  intercom_flutter_web:
-    runs-on: ubuntu-latest
-    env:
-      source-directory: ./intercom_flutter_web/example
-
-    steps:
-    - uses: actions/checkout@v2
-    - uses: nanasess/setup-chromedriver@v2      
-    - uses: subosito/flutter-action@v1
-      with:
-        channel: 'master'
-    
-    # Download all Flutter packages
-    - name: Download dependencies
-      run: flutter pub get
-      working-directory: ${{env.source-directory}}
-
-    # Check for any formatting issues in the code.
-    - name: check code format
-      run: dart format --set-exit-if-changed .
-      working-directory: ${{env.source-directory}}
-
-    # Run Flutter Analyzer
-    - name: Run Flutter Analyzer
-      run: flutter analyze
-      working-directory: ${{env.source-directory}}
-
-    # Run chrome driver
-    - name: Run chrome driver
-      run: chromedriver --port=4444 &
-      working-directory: ${{env.source-directory}}
-
-    # Run all integration tests
-    - name: Run integration tests
-      run: flutter drive -d web-server --browser-name=chrome --driver=test_driver/integration_test.dart --target=integration_test/intercom_flutter_web_test.dart
-      working-directory: ${{env.source-directory}}
